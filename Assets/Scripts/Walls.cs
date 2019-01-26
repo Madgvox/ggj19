@@ -9,13 +9,17 @@ public class Walls : MonoBehaviour {
 	public AnimationCurve curve;
 
 	public bool flipPulse;
+	public float pulseStrength = 1;
+
+	public bool updateCollider = false;
+
 
 
 	Vector3[] positions;
 
 
 	private void Start () {
-		shape.autoUpdateCollider = false;
+		shape.autoUpdateCollider = updateCollider;
 		var spline = shape.spline;
 
 		var count = spline.GetPointCount();
@@ -28,6 +32,7 @@ public class Walls : MonoBehaviour {
 	}
 
 	private void Update () {
+		if( pulseStrength == 0 ) return;
 		var spline = shape.spline;
 
 		var count = spline.GetPointCount();
@@ -38,7 +43,7 @@ public class Walls : MonoBehaviour {
 			var norm = Vector3.Cross( tan, Vector3.forward );
 
 			var dir = flipPulse ? -1 : 1;
-			pt += norm * curve.Evaluate( 1 - FlowManager.GetPulseStrengthNormalized() ) * 0.1f * dir;
+			pt += norm * curve.Evaluate( 1 - FlowManager.GetPulseStrengthNormalized() ) * 0.1f * pulseStrength * dir;
 
 			spline.SetPosition( i, pt );
 		}

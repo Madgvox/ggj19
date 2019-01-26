@@ -178,22 +178,14 @@ namespace BezierSolution
 
 		public Vector3 GetPoint( float normalizedT )
 		{
-			if( !loop )
-			{
-				if( normalizedT <= 0f )
-					return endPoints[0].position;
-				else if( normalizedT >= 1f )
-					return endPoints[endPoints.Count - 1].position;
-			}
-			else
-			{
-				if( normalizedT < 0f )
-					normalizedT += 1f;
-				else if( normalizedT >= 1f )
-					normalizedT -= 1f;
-			}
+			if( normalizedT <= 0f )
+				return endPoints[0].position;
+			else if( normalizedT >= 1f )
+				return endPoints[endPoints.Count - 1].position;
 
-			float t = normalizedT * ( loop ? endPoints.Count : ( endPoints.Count - 1 ) );
+			var count = endPoints.Count;
+
+			float t = normalizedT * ( loop ? count : ( count - 1 ) );
 
 			BezierPoint startPoint, endPoint;
 
@@ -207,12 +199,49 @@ namespace BezierSolution
 			endPoint = endPoints[endIndex];
 
 			float localT = t - startIndex;
-			float oneMinusLocalT = 1f - localT;
+			float inv = 1f - localT;
+			float inv2 = inv * inv;
+			float inv3 = inv2 * inv;
+			float l2 = localT * localT;
+			float l3 = l2 * localT;
 
-			return oneMinusLocalT * oneMinusLocalT * oneMinusLocalT * startPoint.position +
-				   3f * oneMinusLocalT * oneMinusLocalT * localT * startPoint.followingControlPointPosition +
-				   3f * oneMinusLocalT * localT * localT * endPoint.precedingControlPointPosition +
-				   localT * localT * localT * endPoint.position;
+			var p1 = startPoint.position;
+
+			p1.x *= inv3;
+			p1.y *= inv3;
+			p1.z *= inv3;
+
+			var p2 = startPoint.followingControlPointPosition;
+
+			var a = 3 * inv2 * localT;
+			p2.x *= a;
+			p2.y *= a;
+			p2.z *= a;
+
+			var p3 = endPoint.precedingControlPointPosition;
+
+			var b = 3 * inv * l2;
+			p3.x *= b;
+			p3.y *= b;
+			p3.z *= b;
+
+			var p4 = endPoint.position;
+			p4.x *= l3;
+			p4.y *= l3;
+			p4.z *= l3;
+
+			Vector3 p5;
+
+			p5.x = p1.x + p2.x + p3.x + p4.x;
+			p5.y = p1.y + p2.y + p3.y + p4.y;
+			p5.z = p1.z + p2.z + p3.z + p4.z;
+
+			return p5;
+
+			//return inv * inv * inv * startPoint.position +
+			//	   3f * inv * inv * localT * startPoint.followingControlPointPosition +
+			//	   3f * inv * localT * localT * endPoint.precedingControlPointPosition +
+			//	   localT * localT * localT * endPoint.position;
 		}
 
 		public Vector3 GetTangent( float normalizedT )

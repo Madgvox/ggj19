@@ -86,7 +86,7 @@ public class Player : MonoBehaviour {
 		var flowTarget = Vector3.zero;
 
 		if( flow.field != null ) {
-			flowTarget = flow.field.GetStrength() * flow.flowDir;
+			flowTarget = flow.field.GetStrength( !wantsMove ) * flow.flowDir;
 		}
 
 		flowVelTarget = Vector3.SmoothDamp( flowVelTarget, flowTarget, ref flowTargetVel, 0.1f );

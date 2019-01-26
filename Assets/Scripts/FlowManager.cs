@@ -21,7 +21,7 @@ public class FlowManager : MonoBehaviour {
 	public float globalPulseStrengthMax = 1f;
 	public float globalPulseStrengthMin = 0.4f;
 
-	FlowField[] allFlowFields;
+	public FlowField[] allFlowFields;
 
 	void Awake () {
 		instance = this;
@@ -50,7 +50,7 @@ public class FlowManager : MonoBehaviour {
 		return instance.currentPulseStrengthNormal;
 	}
 
-	public static FlowSample SampleFlowField ( Vector3 atPoint, float quality = 100 ) {
+	public static FlowSample SampleFlowField ( Vector3 atPoint, float quality = 100, bool sampleFlow = true, bool limitDistance = true, bool limitDot = true ) {
 		FlowSample sample = default;
 		sample.distance = float.MaxValue;
 
@@ -58,14 +58,15 @@ public class FlowManager : MonoBehaviour {
 			float t;
 			var pt = field.spline.FindNearestPointTo( atPoint, out t, quality );
 
+
 			var dist = ( atPoint - pt ).magnitude;
 			var influenceDist = field.GetWidth( t );
 
-			if( dist > influenceDist ) continue;
+			if( limitDistance && dist > influenceDist ) continue;
 
-			var dot = Vector3.Dot( ( pt - atPoint ).normalized, field.spline.GetNormal( t ) );
+			var dot = Vector3.Dot( ( atPoint - pt ).normalized, field.spline.GetNormal( t ) );
 
-			if( Mathf.Abs( dot ) < 0.9f && dist > 0.1f ) {
+			if( limitDot && Mathf.Abs( dot ) < 0.9f && dist > 0.2f ) {
 				continue;
 			}
 
@@ -79,7 +80,7 @@ public class FlowManager : MonoBehaviour {
 			}
 		}
 
-		if( sample.field != null ) {
+		if( sample.field != null && sampleFlow ) {
 			var lengthRatio = 1 / sample.field.spline.Length;
 			float nextT = sample.t;
 			var nextPoint = sample.field.spline.MoveAlongSpline( ref nextT, 1, 3 );

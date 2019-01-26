@@ -9,8 +9,10 @@ public class FlowField : MonoBehaviour {
 	[SerializeField]
 	float strength;
 
-	public float GetStrength () {
-		return strength * FlowManager.GetPulseStrength();
+	public float GetStrength ( bool pulsed = true ) {
+		var str = strength;
+		if( pulsed ) str *= FlowManager.GetPulseStrength();
+		return str;
 	}
 
 	internal float GetWidth ( float t ) {

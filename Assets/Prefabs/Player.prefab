@@ -132,8 +132,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rigidbody: {fileID: 1886835749}
-  baseSpeed: 5
-  pulseSpeed: 0.5
-  drag: 8
+  baseSpeed: 7
+  pulseRate: 0.5
+  drag: 10
   maxSpeed: 5
   minSpeed: 1
+  maxRotateVelocity: 2

@@ -11,6 +11,7 @@ public class Player : MonoBehaviour {
 
     public float pulseRate = 1f;
     public float drag = 0.3f;
+    public float flowDrag = 0.3f;
     public float maxSpeed = 10f;
     public float minSpeed = 1f;
 
@@ -19,7 +20,12 @@ public class Player : MonoBehaviour {
 	public float maxRotateVelocity = 2f;
 	float rotateVelocity;
 
+	float flowStrengthTarget;
+
     Vector3 velocity;
+    Vector3 flowVelocity;
+    Vector3 flowVelTarget;
+    Vector3 flowTargetVel;
 
 	Vector3 movementDir;
 
@@ -63,7 +69,6 @@ public class Player : MonoBehaviour {
 		var dirDot = Vector3.Dot( movementDir.normalized, initialDirection );
 		var velDot = Vector3.Dot( velocity.normalized, initialDirection );
 
-		var cross = Vector3.Cross( initialDirection, Vector3.forward );
 		if( dirDot < 0 ) {
 			movementDir = Vector3.Lerp( movementDir, Vector3.zero, dirDot * -1 * 0.5f );
 		}
@@ -77,14 +82,29 @@ public class Player : MonoBehaviour {
 		if( mag < 0 ) mag = 0;
 		velocity = velocity.normalized * mag;
 
-		Debug.DrawRay( transform.position, velocity, Color.red );
+		var flow = FlowManager.SampleFlowField( transform.position, 400 );
+		var flowTarget = Vector3.zero;
+
+		if( flow.field != null ) {
+			flowTarget = flow.field.GetStrength() * flow.flowDir;
+		}
+
+		flowVelTarget = Vector3.SmoothDamp( flowVelTarget, flowTarget, ref flowTargetVel, 0.1f );
+		flowVelocity = Vector3.RotateTowards( flowVelocity, flowVelTarget, 2f * Time.deltaTime, float.MaxValue );
+		var flowMag = flowVelocity.magnitude;
+		flowMag -= flowDrag * Time.deltaTime;
+		if( flowMag < flowVelTarget.magnitude ) flowMag = flowVelTarget.magnitude;
+		flowVelocity = flowVelocity.normalized * flowMag;
+
+		Debug.DrawRay( transform.position, flowVelTarget, Color.red );
+
+		//Debug.DrawRay( transform.position, velocity, Color.red );
 		//Debug.DrawRay( transform.position, initialDirection, Color.blue );
-		//Debug.DrawRay( transform.position, cross, Color.magenta );
-		Debug.DrawRay( transform.position, movementDir, Color.green );
+		//Debug.DrawRay( transform.position, movementDir, Color.green );
 	}
 
 	private void FixedUpdate () {
-		var newPos = (Vector3)rigidbody.position + velocity * Time.fixedDeltaTime;
+		var newPos = (Vector3)rigidbody.position + velocity * Time.fixedDeltaTime + flowVelocity * Time.fixedDeltaTime;
 		rigidbody.MovePosition( newPos );
 	}
 

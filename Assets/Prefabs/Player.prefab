@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6523746337307724242}
   - component: {fileID: 3696408725619283722}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: gfx
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -91,9 +91,9 @@ GameObject:
   - component: {fileID: 8780819650349850709}
   - component: {fileID: 1886835749}
   - component: {fileID: 8780819650349850714}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

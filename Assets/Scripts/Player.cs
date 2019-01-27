@@ -20,6 +20,7 @@ public class Player : MonoBehaviour {
     public float flowDrag = 0.3f;
     public float maxSpeed = 10f;
     public float minSpeed = 1f;
+    public float stuckSpeed = 5f;
 
 	public float damageTimer = 0f;
 	public bool damageFlip = false;
@@ -48,6 +49,10 @@ public class Player : MonoBehaviour {
     //sounds
     public AudioSource playerHurt;
 
+	bool stuck;
+
+	float squishTimer;
+
     // Start is called before the first frame update
     void Start () {
         initialScale = sprite.transform.localScale;
@@ -69,9 +74,12 @@ public class Player : MonoBehaviour {
 			if( pulseTimer <= 0 ) {
 				pulseTimer += pulseRate;
 
-				velocity = hv * baseSpeed;
+				var sp = baseSpeed;
+				if( stuck ) sp = stuckSpeed;
+				velocity = hv * sp;
 				movementDir = velocity.normalized;
 				initialDirection = movementDir;
+				squishTimer = 1;
 			} else {
 				movementDir = hv;
 				rotateVelocity = maxRotateVelocity;
@@ -97,6 +105,8 @@ public class Player : MonoBehaviour {
 		var mag = velocity.magnitude;
 		mag -= drag * Time.deltaTime;
 		if( mag < 0 ) mag = 0;
+
+		if( stuck && mag > stuckSpeed ) mag = stuckSpeed;
 		velocity = velocity.normalized * mag;
 
 		var mag2 = knockbackVelocity.magnitude;
@@ -124,6 +134,7 @@ public class Player : MonoBehaviour {
 		//Debug.DrawRay( transform.position, initialDirection, Color.blue );
 		//Debug.DrawRay( transform.position, movementDir, Color.green );
 
+
 		if( velocity.magnitude > 0.001f ) {
 
 			if( Vector3.Dot( velocity.normalized, Vector3.right ) > 0 ) {
@@ -136,8 +147,13 @@ public class Player : MonoBehaviour {
 			rotation *= Quaternion.AngleAxis( 90, Vector3.right );
 			rotation *= Quaternion.AngleAxis( 90, Vector3.forward );
 			sprite.transform.rotation = rotation;
-			sprite.transform.localScale = new Vector3( initialScale.x, 
-				Mathf.Lerp( initialScale.y * 0.75f, initialScale.y, squishCurve.Evaluate( velocity.magnitude / maxSpeed ) ), 
+		} else {
+		}
+		if( squishTimer > 0 ) {
+			squishTimer -= Time.deltaTime;
+
+			sprite.transform.localScale = new Vector3( initialScale.x,
+				Mathf.Lerp( initialScale.y, initialScale.y * 0.75f, squishCurve.Evaluate( 1 - squishTimer ) ),
 				initialScale.z );
 		} else {
 			sprite.transform.localScale = initialScale;
@@ -173,6 +189,16 @@ public class Player : MonoBehaviour {
 			enemy.ForgetTarget();
 			knockbackVelocity = collision.GetContact( 0 ).normal * knockbackPower;
 			playerHurt.Play();
+		}
+	}
+
+	private void LateUpdate () {
+		stuck = false;
+	}
+
+	private void OnTriggerStay2D ( Collider2D collider ) {
+		if( collider.CompareTag( "Goo" ) ) {
+			stuck = true;
 		}
 	}
 }

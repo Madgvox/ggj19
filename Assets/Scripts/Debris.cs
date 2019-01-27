@@ -14,7 +14,7 @@ public class Debris : MonoBehaviour {
 
 	bool activeInScene;
 
-	float passiveDeathTimer = 2f;
+	public float passiveDeathTimer = 2f;
 
 	private void Start () {
 		obj.flowMass = Random.Range( 0.3f, 1.5f );
@@ -43,6 +43,10 @@ public class Debris : MonoBehaviour {
 
 			Destroy( gameObject );
 		}
+
+		var color = sprite.color;
+		color.a = Mathf.Lerp( 0, 1, obj.flowVelocity.magnitude / 0.4f );
+		sprite.color = color;
 	}
 
 	private void FixedUpdate () {

@@ -864,7 +864,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 890912667}
   camera: {fileID: 1298705598}
-  prefab: {fileID: 4979694013081685077, guid: 327e50be9a2c6804985155368794a534, type: 3}
+  prefab: {fileID: 5110560172086572400, guid: 327e50be9a2c6804985155368794a534, type: 3}
   worldCameraRect:
     serializedVersion: 2
     x: 0
@@ -2854,7 +2854,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -562167409
   m_SortingLayer: -1
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_Sprite: {fileID: 21300002, guid: 72b7c1174f0624e50843293aebc23880, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

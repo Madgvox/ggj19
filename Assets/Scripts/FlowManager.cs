@@ -21,12 +21,19 @@ public class FlowManager : MonoBehaviour {
 	public float globalPulseStrengthMax = 1f;
 	public float globalPulseStrengthMin = 0.4f;
 
-	public FlowField[] allFlowFields;
+    public AudioSource heartbeat1;
+    public AudioSource heartbeat2;
+    public AudioSource heartbeat3;
+    public AudioSource heartbeat4;
+    public int heartbeatCounter;
+
+    public FlowField[] allFlowFields;
 
 	void Awake () {
 		instance = this;
 
-		allFlowFields = FindObjectsOfType<FlowField>();
+        allFlowFields = FindObjectsOfType<FlowField>();
+        heartbeatCounter = 1;
 	}
 
 	void Update () {
@@ -34,7 +41,25 @@ public class FlowManager : MonoBehaviour {
 
 		if( pulseTime < 0 ) {
 			pulseTime += globalPulseDelay;
-		}
+            if(heartbeatCounter == 1)
+            {
+                heartbeat1.Play();
+            } if(heartbeatCounter == 2)
+            {
+                heartbeat2.Play();
+            } if(heartbeatCounter == 3)
+            {
+                heartbeat3.Play();
+            } if(heartbeatCounter == 4)
+            {
+                heartbeat4.Play();
+            }
+            heartbeatCounter += 1;
+            if(heartbeatCounter > 4)
+            {
+                heartbeatCounter = 1;
+            }
+        }
 
 		var p = pulseTime / globalPulseDelay;
 

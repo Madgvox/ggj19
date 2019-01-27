@@ -75,7 +75,6 @@ public class Player : MonoBehaviour {
 				pulseTimer += pulseRate;
 
 				var sp = baseSpeed;
-				if( stuck ) sp = stuckSpeed;
 				velocity = hv * sp;
 				movementDir = velocity.normalized;
 				initialDirection = movementDir;
@@ -170,7 +169,9 @@ public class Player : MonoBehaviour {
 	}
 
 	private void FixedUpdate () {
-		var newPos = (Vector3)rigidbody.position + velocity * Time.fixedDeltaTime + flowVelocity * Time.fixedDeltaTime + knockbackVelocity * Time.fixedDeltaTime;
+		var vel = velocity * Time.fixedDeltaTime + flowVelocity * Time.fixedDeltaTime + knockbackVelocity * Time.fixedDeltaTime;
+		if( stuck ) vel *= 0.75f;
+		var newPos = (Vector3)rigidbody.position + vel;
 		rigidbody.MovePosition( newPos );
 	}
 

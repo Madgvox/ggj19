@@ -9,6 +9,11 @@ public class PauseMenuManager : MonoBehaviour
 
     [SerializeField] private bool isPaused;
 
+    //sounds
+    public AudioSource onMouseOver;
+    public AudioSource buttonClick;
+    public AudioSource openMenu;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -31,6 +36,7 @@ public class PauseMenuManager : MonoBehaviour
 
     public void ActivateMenu()
     {
+        openMenu.Play();
         pauseMenuUI.SetActive(true);
         isPaused = true;
     }
@@ -44,6 +50,16 @@ public class PauseMenuManager : MonoBehaviour
     public void MainMenuButton(string newGameLevel)
     {
         SceneManager.LoadScene(newGameLevel);
+    }
+
+    public void OnMouseOver()
+    {
+        onMouseOver.Play();
+    }
+
+    public void ButtonClickSound()
+    {
+        buttonClick.Play();
     }
 
 }

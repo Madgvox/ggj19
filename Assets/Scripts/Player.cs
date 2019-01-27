@@ -38,6 +38,9 @@ public class Player : MonoBehaviour {
 
 	Vector3 initialScale;
 
+    //sounds
+    public AudioSource playerHurt;
+
     // Start is called before the first frame update
     void Start () {
         initialScale = sprite.transform.localScale;
@@ -141,5 +144,7 @@ public class Player : MonoBehaviour {
 		var count = collision.GetContacts( contacts );
 
 		var normal = contacts[ 0 ].normalImpulse;
+
+        playerHurt.Play();
 	}
 }

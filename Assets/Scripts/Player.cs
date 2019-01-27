@@ -172,7 +172,7 @@ public class Player : MonoBehaviour {
 			damageTimer = 1.5f;
 			enemy.ForgetTarget();
 			knockbackVelocity = collision.GetContact( 0 ).normal * knockbackPower;
+			playerHurt.Play();
 		}
-        playerHurt.Play();
 	}
 }

@@ -13,12 +13,15 @@ public class Bubble : MonoBehaviour {
 	}
 
 	private void Update () {
-		transform.localScale = new Vector3( Mathf.Sin( Time.time ), Mathf.Cos( Time.time ) );
+		var sin = ( Mathf.Sin( Time.time ) + 1 ) * 0.5f;
+		var cos = ( Mathf.Cos( Time.time ) + 1 ) * 0.5f;
+		transform.localScale = new Vector3( Mathf.Lerp( 0.8f, 1.2f, sin ) , Mathf.Lerp( 0.8f, 1.2f, cos ) );
 	}
 
 	private void OnTriggerEnter2D ( Collider2D collider ) {
 		if( collider.CompareTag( "Player" ) ) {
 			sys.transform.SetParent( null );
+			sys.transform.localScale = Vector3.one;
 			sys.Play();
 
 			Destroy( sys.gameObject, 2 );

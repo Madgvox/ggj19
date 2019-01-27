@@ -200,7 +200,12 @@ MonoBehaviour:
   baseSpeed: 7
   pulseRate: 0.5
   drag: 10
+  knockbackDrag: 20
   flowDrag: 1
   maxSpeed: 5
   minSpeed: 1
+  damageTimer: 0
+  damageFlip: 0
   maxRotateVelocity: 2
+  knockbackPower: 12
+  playerHurt: {fileID: 0}

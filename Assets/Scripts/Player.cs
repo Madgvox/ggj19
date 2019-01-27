@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour {
+	[SerializeField]
+	SpriteRenderer sprite;
 
 	[SerializeField]
 	Rigidbody2D rigidbody;
@@ -101,6 +103,13 @@ public class Player : MonoBehaviour {
 		//Debug.DrawRay( transform.position, velocity, Color.red );
 		//Debug.DrawRay( transform.position, initialDirection, Color.blue );
 		//Debug.DrawRay( transform.position, movementDir, Color.green );
+
+		var finalDir = velocity + flowVelocity;
+		if( finalDir != Vector3.zero ) {
+			var rotation = Quaternion.LookRotation( finalDir, Vector3.forward );
+			rotation *= Quaternion.AngleAxis( 90, Vector3.right );
+			sprite.transform.rotation = rotation;
+		}
 	}
 
 	private void FixedUpdate () {

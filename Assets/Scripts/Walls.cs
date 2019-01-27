@@ -19,7 +19,6 @@ public class Walls : MonoBehaviour {
 
 
 	private void Start () {
-		shape.autoUpdateCollider = updateCollider;
 		var spline = shape.spline;
 
 		var count = spline.GetPointCount();

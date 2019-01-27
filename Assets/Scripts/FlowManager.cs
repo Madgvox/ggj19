@@ -41,24 +41,24 @@ public class FlowManager : MonoBehaviour {
 
 		if( pulseTime < 0 ) {
 			pulseTime += globalPulseDelay;
-            if(heartbeatCounter == 1)
-            {
-                heartbeat1.Play();
-            } if(heartbeatCounter == 2)
-            {
-                heartbeat2.Play();
-            } if(heartbeatCounter == 3)
-            {
-                heartbeat3.Play();
-            } if(heartbeatCounter == 4)
-            {
-                heartbeat4.Play();
-            }
-            heartbeatCounter += 1;
-            if(heartbeatCounter > 4)
-            {
-                heartbeatCounter = 1;
-            }
+			if( heartbeat1 != null ) {
+				if( heartbeatCounter == 1 ) {
+					heartbeat1.Play();
+				}
+				if( heartbeatCounter == 2 ) {
+					heartbeat2.Play();
+				}
+				if( heartbeatCounter == 3 ) {
+					heartbeat3.Play();
+				}
+				if( heartbeatCounter == 4 ) {
+					heartbeat4.Play();
+				}
+				heartbeatCounter += 1;
+				if( heartbeatCounter > 4 ) {
+					heartbeatCounter = 1;
+				}
+			}
         }
 
 		var p = pulseTime / globalPulseDelay;

@@ -16,9 +16,13 @@ public class Player : MonoBehaviour {
 
     public float pulseRate = 1f;
     public float drag = 0.3f;
+    public float knockbackDrag = 0.3f;
     public float flowDrag = 0.3f;
     public float maxSpeed = 10f;
     public float minSpeed = 1f;
+
+	public float damageTimer = 0f;
+	public bool damageFlip = false;
 
     float pulseTimer = 0;
 
@@ -37,6 +41,9 @@ public class Player : MonoBehaviour {
 	Vector3 initialDirection;
 
 	Vector3 initialScale;
+
+	Vector3 knockbackVelocity;
+	public float knockbackPower;
 
     // Start is called before the first frame update
     void Start () {
@@ -89,6 +96,11 @@ public class Player : MonoBehaviour {
 		if( mag < 0 ) mag = 0;
 		velocity = velocity.normalized * mag;
 
+		var mag2 = knockbackVelocity.magnitude;
+		mag2 -= drag * Time.deltaTime;
+		if( mag2 < 0 ) mag2 = 0;
+		knockbackVelocity = knockbackVelocity.normalized * mag2;
+
 		var flow = FlowManager.SampleFlowField( transform.position, 400 );
 		var flowTarget = Vector3.zero;
 
@@ -127,10 +139,19 @@ public class Player : MonoBehaviour {
 		} else {
 			sprite.transform.localScale = initialScale;
 		}
+
+		if( damageTimer > 0 ) {
+			damageTimer -= Time.deltaTime;
+			sprite.enabled = damageFlip;
+			damageFlip = !damageFlip;
+		} else {
+			sprite.enabled = true;
+			damageFlip = false;
+		}
 	}
 
 	private void FixedUpdate () {
-		var newPos = (Vector3)rigidbody.position + velocity * Time.fixedDeltaTime + flowVelocity * Time.fixedDeltaTime;
+		var newPos = (Vector3)rigidbody.position + velocity * Time.fixedDeltaTime + flowVelocity * Time.fixedDeltaTime + knockbackVelocity * Time.fixedDeltaTime;
 		rigidbody.MovePosition( newPos );
 	}
 
@@ -140,6 +161,14 @@ public class Player : MonoBehaviour {
 	private void OnCollisionEnter2D ( Collision2D collision ) {
 		var count = collision.GetContacts( contacts );
 
-		var normal = contacts[ 0 ].normalImpulse;
+		var collider = collision.collider;
+
+		var enemy = collider.GetComponent<Enemy>();
+
+		if( enemy != null && damageTimer <= 0 ) {
+			damageTimer = 1.5f;
+			enemy.ForgetTarget();
+			knockbackVelocity = collision.GetContact( 0 ).normal * knockbackPower;
+		}
 	}
 }

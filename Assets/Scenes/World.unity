@@ -14860,7 +14860,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1298705596}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 157.98303, y: 65.3301, z: -10}
+  m_LocalPosition: {x: 157.70284, y: 65.3301, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -16580,7 +16580,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1362013919}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 157.98303, y: 65.3301, z: -10}
+  m_LocalPosition: {x: 157.70284, y: 65.3301, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 669126075}
@@ -24396,6 +24396,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8780819650349850714, guid: 7b7e785efbfe44a49a216ba908a88890,
+        type: 3}
+      propertyPath: flowDrag
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8780819650349850709, guid: 7b7e785efbfe44a49a216ba908a88890,
         type: 3}
       propertyPath: m_Material
@@ -24404,11 +24409,6 @@ PrefabInstance:
     - target: {fileID: 1886835749, guid: 7b7e785efbfe44a49a216ba908a88890, type: 3}
       propertyPath: m_Constraints
       value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 8780819650349850714, guid: 7b7e785efbfe44a49a216ba908a88890,
-        type: 3}
-      propertyPath: flowDrag
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7b7e785efbfe44a49a216ba908a88890, type: 3}

@@ -14,7 +14,9 @@ public class Debris : MonoBehaviour {
 
 	bool activeInScene;
 
-	float passiveDeathTimer = 2f;
+	public float passiveDeathTimer = 2f;
+
+	bool stuck = false;
 
 	private void Start () {
 		obj.flowMass = Random.Range( 0.3f, 1.5f );
@@ -43,10 +45,29 @@ public class Debris : MonoBehaviour {
 
 			Destroy( gameObject );
 		}
+
+		var color = sprite.color;
+		color.a = Mathf.Lerp( 0, 1, obj.flowVelocity.magnitude / 0.4f );
+		sprite.color = color;
 	}
 
 	private void FixedUpdate () {
-		var newPos = (Vector3)rigidbody.position + obj.flowVelocity * Time.fixedDeltaTime;
+		var flow = obj.flowVelocity;
+
+		if( stuck ) flow *= 0.25f;
+		var newPos = (Vector3)rigidbody.position + flow * Time.fixedDeltaTime;
 		rigidbody.MovePosition( newPos );
+	}
+
+	private void OnTriggerEnter2D ( Collider2D collision ) {
+		if( collision.CompareTag( "Goo" ) ) {
+			stuck = true;
+		}
+	}
+
+	private void OnTriggerExit2D ( Collider2D collision ) {
+		if( collision.CompareTag( "Goo" ) ) {
+			stuck = false;
+		}
 	}
 }

@@ -15,31 +15,34 @@ public class SpawnFieldManager : MonoBehaviour {
 	public Transform target;
 	public Camera camera;
 
-	public GameObject prefab;
+	public Debris prefab;
 
 	public Rect worldCameraRect;
 
 	List<SpawnArea> aheadSpawns = new List<SpawnArea>();
 	List<SpawnArea> behindSpawns = new List<SpawnArea>();
+
+	float debrisTimer = 0f;
+
 	private void Awake () {
 		instance = this;
 	}
 
-	private void Update () {
+	private void LateUpdate () {
 		UpdateAreas();
 
-		//foreach( var spawn in behindSpawns ) {
-		//	if( Random.value < 0.1f ) {
-		//		var obj = Instantiate( prefab );
+		debrisTimer -= Time.deltaTime;
 
-		//		var pos = spawn.field.spline.GetPoint( spawn.maxT );
-		//		Draw.Point( pos, Color.red, 0.5f );
-		//		var dir = Random.value > 0.5f ? 1 : -1;
-		//		var offset = spawn.field.spline.GetNormal( spawn.maxT ) * spawn.field.GetWidth( spawn.maxT ) * 0.8f * dir * Random.value;
+		if( debrisTimer < 0 ) {
+			debrisTimer += Random.Range( 0.5f, 1f );
+			foreach( var spawn in behindSpawns ) {
+				SpawnDebris( spawn, 8f );
+			}
 
-		//		obj.transform.position = pos + offset;
-		//	}
-		//}
+			foreach( var spawn in aheadSpawns ) {
+				SpawnDebris( spawn, 2f );
+			}
+		}
 
 		foreach( var spawn in behindSpawns ) {
 			Draw.Point( spawn.field.spline.GetPoint( spawn.maxT ) );
@@ -48,6 +51,18 @@ public class SpawnFieldManager : MonoBehaviour {
 		foreach( var spawn in aheadSpawns ) {
 			Draw.Point( spawn.field.spline.GetPoint( spawn.maxT ), Color.green );
 		}
+	}
+
+	private void SpawnDebris ( SpawnArea spawn, float destroyDelay ) {
+		var obj = Instantiate( prefab );
+
+		obj.passiveDeathTimer = destroyDelay;
+
+		var pos = spawn.field.spline.GetPoint( spawn.maxT );
+		var dir = Random.value > 0.5f ? 1 : -1;
+		var offset = spawn.field.spline.GetNormal( spawn.maxT ) * spawn.field.GetWidth( spawn.maxT ) * 0.8f * dir * Random.value;
+
+		obj.transform.position = pos + offset;
 	}
 
 	void UpdateAreas () {

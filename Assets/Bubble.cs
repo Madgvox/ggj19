@@ -8,6 +8,8 @@ public class Bubble : MonoBehaviour {
 
 	Vector3 initialScale;
 
+    public AudioSource bubblePop;
+
 	private void Start () {
 		initialScale = transform.localScale;
 	}
@@ -20,11 +22,14 @@ public class Bubble : MonoBehaviour {
 
 	private void OnTriggerEnter2D ( Collider2D collider ) {
 		if( collider.CompareTag( "Player" ) ) {
-			sys.transform.SetParent( null );
+            bubblePop.transform.SetParent(null);
+            sys.transform.SetParent( null );
 			sys.transform.localScale = Vector3.one;
+            bubblePop.transform.localScale = Vector3.one;
+            bubblePop.Play();
 			sys.Play();
-
 			Destroy( sys.gameObject, 2 );
+            Destroy(bubblePop.gameObject, 2);
 			Destroy( gameObject );
 		}
 	}

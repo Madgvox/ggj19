@@ -5,6 +5,10 @@ using UnityEngine.SceneManagement;
 
 public class ButtonManager : MonoBehaviour
 {
+
+    public AudioSource buttonClick;
+    public AudioSource mouseOverSound;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -19,6 +23,7 @@ public class ButtonManager : MonoBehaviour
 
     public void NewGameButton(string newGameLevel)
     {
+        buttonClick.Play();
         SceneManager.LoadScene(newGameLevel);
     }
 
@@ -26,5 +31,10 @@ public class ButtonManager : MonoBehaviour
     {
         Debug.Log("Exiting Game");
         Application.Quit();
+    }
+
+    public void MouseOverSound()
+    {
+        mouseOverSound.Play();
     }
 }

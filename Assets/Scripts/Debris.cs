@@ -7,6 +7,10 @@ public class Debris : MonoBehaviour {
 	FlowObject obj;
 	[SerializeField]
 	Rigidbody2D rigidbody;
+	[SerializeField]
+	SpriteRenderer sprite;
+
+	public Sprite[] sprites;
 
 	bool activeInScene;
 
@@ -14,6 +18,10 @@ public class Debris : MonoBehaviour {
 
 	private void Start () {
 		obj.flowMass = Random.Range( 0.3f, 1.5f );
+
+		sprite.sprite = sprites[ Random.Range( 0, sprites.Length ) ];
+
+		rigidbody.AddTorque( Random.Range( -40, 40f ) );
 	}
 
 	private void Update () {

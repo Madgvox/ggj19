@@ -29,6 +29,7 @@ public class PauseMenuManager : MonoBehaviour
             ActivateMenu();
         } else if (Input.GetKeyDown(KeyCode.Escape) && isPaused)
         {
+            ButtonClickSound();
             DeactivateMenu();
         }
         

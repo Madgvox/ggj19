@@ -45,6 +45,9 @@ public class Player : MonoBehaviour {
 	Vector3 knockbackVelocity;
 	public float knockbackPower;
 
+    //sounds
+    public AudioSource playerHurt;
+
     // Start is called before the first frame update
     void Start () {
         initialScale = sprite.transform.localScale;
@@ -170,5 +173,6 @@ public class Player : MonoBehaviour {
 			enemy.ForgetTarget();
 			knockbackVelocity = collision.GetContact( 0 ).normal * knockbackPower;
 		}
+        playerHurt.Play();
 	}
 }

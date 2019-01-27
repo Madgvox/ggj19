@@ -256,7 +256,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.4
 --- !u!50 &1886835749
 Rigidbody2D:
   serializedVersion: 4
@@ -298,15 +298,15 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 19.98512
-      outSlope: 19.98512
+      inSlope: 120.193756
+      outSlope: 120.193756
       tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.05
-      value: 0.999256
+      time: 0.008333333
+      value: 1.0016146
       inSlope: 1
       outSlope: 0.010700592
       tangentMode: 1
@@ -332,6 +332,7 @@ MonoBehaviour:
   flowDrag: 1
   maxSpeed: 5
   minSpeed: 1
+  stuckSpeed: 3.5
   damageTimer: 0
   damageFlip: 0
   maxRotateVelocity: 2

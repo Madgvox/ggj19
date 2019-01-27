@@ -16,6 +16,8 @@ public class Debris : MonoBehaviour {
 
 	public float passiveDeathTimer = 2f;
 
+	bool stuck = false;
+
 	private void Start () {
 		obj.flowMass = Random.Range( 0.3f, 1.5f );
 
@@ -50,7 +52,22 @@ public class Debris : MonoBehaviour {
 	}
 
 	private void FixedUpdate () {
-		var newPos = (Vector3)rigidbody.position + obj.flowVelocity * Time.fixedDeltaTime;
+		var flow = obj.flowVelocity;
+
+		if( stuck ) flow *= 0.25f;
+		var newPos = (Vector3)rigidbody.position + flow * Time.fixedDeltaTime;
 		rigidbody.MovePosition( newPos );
+	}
+
+	private void OnTriggerEnter2D ( Collider2D collision ) {
+		if( collision.CompareTag( "Goo" ) ) {
+			stuck = true;
+		}
+	}
+
+	private void OnTriggerExit2D ( Collider2D collision ) {
+		if( collision.CompareTag( "Goo" ) ) {
+			stuck = false;
+		}
 	}
 }

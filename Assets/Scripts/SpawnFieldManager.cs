@@ -36,7 +36,7 @@ public class SpawnFieldManager : MonoBehaviour {
 		if( debrisTimer < 0 ) {
 			debrisTimer += Random.Range( 0.5f, 1f );
 			foreach( var spawn in behindSpawns ) {
-				SpawnDebris( spawn, 4f );
+				SpawnDebris( spawn, 8f );
 			}
 
 			foreach( var spawn in aheadSpawns ) {

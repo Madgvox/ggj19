@@ -41,6 +41,9 @@ TagManager:
   - name: Background
     uniqueID: 674432323
     locked: 0
+  - name: Flora
+    uniqueID: 3732799887
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0

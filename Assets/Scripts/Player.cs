@@ -110,6 +110,13 @@ public class Player : MonoBehaviour {
 		//Debug.DrawRay( transform.position, movementDir, Color.green );
 
 		if( velocity.magnitude > 0.001f ) {
+
+			if( Vector3.Dot( velocity.normalized, Vector3.right ) > 0 ) {
+				sprite.flipY = true;
+			} else {
+				sprite.flipY = false;
+			}
+
 			var rotation = Quaternion.LookRotation( velocity, Vector3.forward );
 			rotation *= Quaternion.AngleAxis( 90, Vector3.right );
 			rotation *= Quaternion.AngleAxis( 90, Vector3.forward );

@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 1031427008680494089}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.48046, y: 0.48046, z: 0.48046}
   m_Children: []
   m_Father: {fileID: 8780819650349850715}
   m_RootOrder: 0
@@ -68,8 +68,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: c4c75ef2be076457aa3cde868430bff0, type: 3}
-  m_Color: {r: 0.745283, g: 0.24256852, b: 0.24256852, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 9a8508e41908a9249b9fc6db0a2efca0, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -122,7 +122,7 @@ CircleCollider2D:
   m_GameObject: {fileID: 8780819650349850713}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 6015cd760967c1a4d84be9f53d079327, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -149,7 +149,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!114 &8780819650349850714
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -164,10 +164,43 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sprite: {fileID: 3696408725619283722}
   rigidbody: {fileID: 1886835749}
+  squishCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 19.98512
+      outSlope: 19.98512
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.05
+      value: 0.999256
+      inSlope: 1
+      outSlope: 0.010700592
+      tangentMode: 1
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.13405026
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -0.0016134899
+      outSlope: -0.0016134899
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.2627724
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   baseSpeed: 7
   pulseRate: 0.5
   drag: 10
-  flowDrag: 0.3
+  flowDrag: 1
   maxSpeed: 5
   minSpeed: 1
   maxRotateVelocity: 2

@@ -168,11 +168,14 @@ public class Player : MonoBehaviour {
 		}
 	}
 
-	private void FixedUpdate () {
-		var vel = velocity * Time.fixedDeltaTime + flowVelocity * Time.fixedDeltaTime + knockbackVelocity * Time.fixedDeltaTime;
-		if( stuck ) vel *= 0.75f;
-		var newPos = (Vector3)rigidbody.position + vel;
-		rigidbody.MovePosition( newPos );
+	private void FixedUpdate ()
+    {
+        var vel = velocity * Time.fixedDeltaTime + flowVelocity * Time.fixedDeltaTime + knockbackVelocity * Time.fixedDeltaTime;
+        if (stuck) vel *= 0.75f;
+        var partialVel = vel * 0.25f;
+        var pos = (Vector3)rigidbody.position + vel;
+        //rigidbody.velocity = vel;
+        rigidbody.MovePosition(pos);
 	}
 
 

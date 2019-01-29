@@ -85,8 +85,8 @@ SpriteShapeRenderer:
   - {fileID: 0}
   - {fileID: 0}
   m_LocalAABB:
-    m_Center: {x: -28.100433, y: 40.70631, z: 0}
-    m_Extent: {x: 4.8310156, y: 5.22797, z: 0}
+    m_Center: {x: -28.100433, y: 40.70631, z: -0.0005}
+    m_Extent: {x: 4.8310156, y: 5.22797, z: 0.0005}
 --- !u!114 &2356018242010975298
 MonoBehaviour:
   m_ObjectHideFlags: 0
